@@ -1,5 +1,8 @@
 export DEBIAN_FRONTEND=noninteractive
 
+# ABILITO FORWARDING DEI PACCHETTI
+sysctl net.ipv4.ip_forward=1
+
 # ABILITO IL LINK DELL'INTERFACCIA FISICA
 ip link set enp0s8 up
 
@@ -16,3 +19,6 @@ ip link set enp0s8.8 up
 #COLLEGAMENTO DAL ROUTER-1 AL ROUTER-2
 ip addr add 172.16.4.1/30 dev enp0s9 
 ip link set enp0s9 up
+
+# ROUTING PACCHETTI
+ip route add 172.16.2.0/23 via 172.16.4.2
