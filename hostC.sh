@@ -12,12 +12,12 @@ docker pull nginx
 # docker run --dustnic82/nginx-test -d -p 8080:80 simoneluchetta
 
 mkdir /DNCS_Lab_Simo 
-touch file.html
+touch index.html
 cd /DNCS_Lab_Simo
-printf '<!DOCTYPE html> <html lang="en"> <head> <title> DNCS_LAB </title> </head> <body> <p>Hello World!<p> </body> </html>' > file.html
+printf '<!DOCTYPE html> <html lang="en"> <head> <title> DNCS_LAB </title> </head> <body> <p>Hello World!<p> </body> </html>' > index.html
 
-docker run --name nginx -v /DNCS_Lab_Simo/file.html:/usr/share/nginx/html -d -p 800:80 nginx
-# docker run --name nginx -v /DNCS_Lab_Simo/file.html -d -p 80:80 nginx
+docker run --name myNginx -v /DNCS_Lab_Simo:/usr/share/nginx/html:ro -d -p 80:80 nginx
+# docker run --name nginx -v /DNCS_Lab_Simo/index.html -d -p 80:80 nginx
 
 # COLLEGAMENTO DALL'HOST-C AL ROUTER-2
 ip addr add 172.16.2.23/23 dev enp0s8
