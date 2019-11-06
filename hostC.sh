@@ -26,13 +26,11 @@ printf '<!DOCTYPE html> <html lang="en"> <head> <title> DNCS_LAB </title> </head
 
 touch Dockerfile
 printf 'FROM dustnic82/nginx-test
-WORKDIR /usr/share/nginx/html
 COPY index.html /usr/share/nginx/html
-EXPOSE 80
 ' > Dockerfile
 
 docker build -t ciro .
-docker run --name method2nginx ciro
+docker run -d --name method2nginx -p 80:80 ciro
 
 # COLLEGAMENTO DALL'HOST-C AL ROUTER-2
 ip addr add 172.16.2.23/23 dev enp0s8
