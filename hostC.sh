@@ -29,8 +29,8 @@ printf 'FROM dustnic82/nginx-test
 COPY index.html /usr/share/nginx/html
 ' > Dockerfile
 
-docker build -t ciro .
-docker run -d --name method2nginx -p 80:80 ciro
+docker build -t mydockerattempt .
+docker run -d --name method2nginx -p 80:80 mydockerattempt
 
 # COLLEGAMENTO DALL'HOST-C AL ROUTER-2
 ip addr add 172.16.2.23/23 dev enp0s8

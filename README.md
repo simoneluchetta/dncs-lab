@@ -135,7 +135,7 @@ In my case, the script generated the following sizes for me:
 After this was done, I renamed a couple of things in the vagrant file to match the existing files that I created in the project folder, so that when I would have launched the "vagrant up" command afterwards, the initialisation process would have picked my setups contained in those files.
 
 # Step 2) Planning the IPs:
-Once I have been given all the informations needed, I would have proceeded this way: first, I would have picked a commercial IP address (i.g. 127.16.0.0), and then I would have calculated how much space I needed the networks to occupy.
+Once I have been given all the informations needed, I would have proceeded this way: first, I would have picked a private IP address (i.g. 127.16.0.0), and then I would have calculated how much space I needed the networks to occupy.
 
 Starting with the hostA network, I would have needed to include a total amount of space of 195 hosts. That would have meant that I could have picked a /24 lenght subnet (the reason why, is because I would have obtained 32-24 = 8 --> 2^8 = 255 Hosts guaranteed).
 I decided to allocate the space for hostA this way:
@@ -185,12 +185,50 @@ A whole lot of documentation is available online, but this is what I decided to 
         - Create a directory named DNCS_Lab_Simo on my host-c Virtual Machine.
         - Inside the directory, create a new file called "index.html".
         - Edit the file, inserting the content that I wanted.
-        - Run the Docker , with NGINX hosting my HTML content.
+        - Then I created another file called "Dockerfile", which is needed to create the container.
+        - Run the Docker via the docker build & docker run commands, with NGINX hosting my HTML content.
 
 To verify if everything was working fine, the last thing I needed to do was to apply the following command (being either logged in host-a or host-b):
 
         " sudo curl " + host-c IP-Address.
 Which in my case is:
-        " sudo curl 172.16.2.1 ".
+        " sudo curl 172.16.2.23 ".
 
 If everything goes correctly then it should appear the HTML file in the terminal console of host-a or host-b.
+
+
+# Tables:
+
+## Ip addresses:
+
+| IP Address | Mask | Interface | Device |
+| :---: | :---: | :---: | :---: |
+| 172.16.0.21 | /24 | eth1 | host-a |
+| 172.16.1.22 | /24 | eth1 | host-b |
+| 172.16.2.23 | /23 | eth1 | host-c |
+| 172.16.4.1 | /30 | eth2 | router-1 |
+| 172.16.0.1 | /24 | eth1.7 | router-1 |
+| 172.16.1.1 | /24 | eth1.8 | router-1 |
+| 172.16.4.2 | /30 | eth2 | router-2 |
+| 172.16.2.1 | /23 | eth1 | router-2 |
+
+## Vlan tags:
+
+| Subnet | Vlan ID | Router 1 | Switch |
+| :---: | :---: | :---: | :---: |
+| HostA | 7 | eth1.7 | eth1 |
+| HostB | 8 | eth1.8 | eth1 |
+
+## List of useful commands:
+
+| Command | Description |
+| :---: | :---: |
+| sysctl net.ipv4.ip_forward=1 | Enables packets forwarding |
+| ip link set | Alter the status of an interface. The “up” flag with interface name (i.g. eth1) enables a network interface.|
+| ip link add | Useful to set new VLan IDs |
+| ip addr add | Adds a new address to a specific interface |
+| ip route add | Adds a static route |
+| mkdir | Makes a new directory |
+| touch | Creates a new file with a specified content inside of it |
+| docker build | Used to build an image from a Dockerfile. The Dockerfile contains a list of commands that need to be executed. The " . " operator specifies the current directory, and we will always be in that same directory because of the previous linux command that I put in the hostC.sh file |
+| docker run | This command is used to run the cointainer itself |
